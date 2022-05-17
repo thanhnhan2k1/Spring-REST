@@ -12,7 +12,6 @@ import lombok.AccessLevel;
 @Data
 @RequiredArgsConstructor
 @NoArgsConstructor(force=true)
-@Entity
 
 public class Ingredient {
 	  private final String id;
