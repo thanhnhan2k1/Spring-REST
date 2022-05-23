@@ -54,10 +54,19 @@ public class DesignTacoController {
 		}
 		
 		@PostMapping
-		public String processDesign(Taco taco) {
-			// Save the taco design...
+		public String processDesign(@RequestParam("ingredients") String ingredientIds, @RequestParam("name") String name) {
+			List<Ingredient> ingredients = new ArrayList<Ingredient>();
+			for (String ingredientId : ingredientIds.split(",")) {
+				Ingredient ingredient = rest.getForObject("http://localhost:8080/ingredients/{id}", Ingredient.class,
+						ingredientId);
+				ingredients.add(ingredient);
+			}
+			Taco taco = new Taco();
+			taco.setName(name);
+			taco.setIngredients(ingredients);
+			System.out.println(taco);
+			rest.postForObject("http://localhost:8080/design", taco, Taco.class);
 			return "redirect:/orders/current";
-
 		}
 
 }
